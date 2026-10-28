@@ -271,13 +271,16 @@ function init(d){
   D.etapas.forEach((st,i)=>st.ids.forEach(id=>stageOf[id]=i));
   buildGraph();buildTrail();buildAtlasUI();
   document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>showTab(b.dataset.tab));
+  addEventListener('hashchange',()=>showTab(location.hash.slice(1)));
   showTab(location.hash.slice(1));
 }
 
 function showTab(t){
   if(!TABS.includes(t))t='constelacao';
   TABS.forEach(x=>{$('#v-'+x).hidden=x!==t;$('#tab-'+x).setAttribute('aria-selected',x===t)});
-  try{history.replaceState(null,'','#'+t)}catch(e){}
+  // troca de aba entra no histórico; hash vazio ou inválido só é corrigido, senão o voltar cairia num laço
+  const h=location.hash.slice(1);
+  if(h!==t)try{history[TABS.includes(h)?'pushState':'replaceState'](null,'','#'+t)}catch(e){}
   if(t!=='trilha')$('#drawer').hidden=true;
   if(t==='atlas'){renderPeriodPanel();ensureMap().then(()=>{map.resize();return setPeriod(curPer)}).catch(mapError)}
 }
