@@ -47,6 +47,7 @@ button{font:inherit;color:inherit}
 :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
 .eyebrow{font-family:var(--f-mono);font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;color:var(--accent)}
+.eyebrow.tinta{color:color-mix(in srgb,var(--c) 70%,var(--ink))} /* cor de tradição ou tipo como texto pequeno: 70% dá contraste AA (≥ 4,5:1) nos dois temas */
 .tag{font-family:var(--f-mono);font-size:.7rem;color:var(--muted);white-space:nowrap}
 .note{font-size:.85rem;color:var(--muted)}
 
@@ -289,7 +290,7 @@ function showTab(t){
 const relItem=(id,t)=>`<li><button class="linkbtn" data-obra="${id}">${byId[id].t}</button><span class="tag">${t}</span></li>`;
 function obraHTML(id){
   const d=byId[id],inc=D.ligacoes.filter(l=>l[1]===id),out=D.ligacoes.filter(l=>l[0]===id),evs=evByObra[id]||[];
-  return `<p class="eyebrow" style="color:var(--g-${d.g})">${D.tradicoes[d.g]} · ${fmtY(d.ano)}</p>
+  return `<p class="eyebrow tinta" style="--c:var(--g-${d.g})">${D.tradicoes[d.g]} · ${fmtY(d.ano)}</p>
     <h3>${d.t}</h3><p class="by">${d.a}</p><p class="desc">${d.n}</p>
     <p class="tag" style="margin-top:6px">${D.pesos[d.r]}${d.e?' · economia':''} · ${D.etapas[stageOf[id]].s.toLowerCase()} da trilha</p>
     ${inc.length?`<h4>Parte de</h4><ul class="rel">${inc.map(l=>relItem(l[0],l[2]==='d'?'continua':'critica')).join('')}</ul>`:''}
@@ -458,7 +459,7 @@ function renderPeriodPanel(){
     ||'<p class="note" style="margin-top:8px">Nenhum evento deste período está ligado a obras dessa tradição.</p>'}`;
 }
 function cardHTML(e){
-  return `<div class="card"><p class="eyebrow" style="color:var(--t-${e.t})">${D.tipos[e.t]} · ${e.r}</p><h3>${e.n}</h3><p class="mono" style="font-size:.85rem">${e.a}</p>
+  return `<div class="card"><p class="eyebrow tinta" style="--c:var(--t-${e.t})">${D.tipos[e.t]} · ${e.r}</p><h3>${e.n}</h3><p class="mono" style="font-size:.85rem">${e.a}</p>
     ${e.o.length?`<h4>Obras ligadas</h4><ul class="rel">${e.o.map(id=>relItem(id,fmtY(byId[id].ano))).join('')}</ul>`:'<p class="note">Ainda sem obras da constelação ligadas a este evento.</p>'}</div>`;
 }
 function selectEvent(id,fly){
