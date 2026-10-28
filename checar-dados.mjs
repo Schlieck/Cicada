@@ -20,12 +20,8 @@ assert.equal(new Set(naTrilha).size, naTrilha.length, 'obra repetida na trilha')
 assert.deepEqual(D.obras.filter(o => !naTrilha.includes(o.id)).map(o => o.id), [], 'obra fora da trilha');
 for (const e of D.etapas) assert.ok(!e.tip || e.tip.includes(':'), `etapa "${e.t}": tip sem ":"`);
 
-// ids que index.html usa direto; se faltarem, a página inteira quebra
-const html = readFileSync(new URL('index.html', dir), 'utf8');
-const start = html.match(/const start=\[([^\]]*)\]/)?.[1], perInicial = html.match(/curPer='([^']+)'/)?.[1];
-assert.ok(start && perInicial, 'index.html mudou: atualize a busca de "const start" e "curPer" em checar-dados.mjs');
-for (const id of start.match(/[^'",\s]+/g)) assert.ok(ids.has(id), `index.html ("Para começar") cita obra inexistente: ${id}`);
-assert.ok(D.periodos.some(p => p.id === perInicial), `index.html: período inicial "${perInicial}" inexistente`);
+for (const id of D.inicio.obras) assert.ok(ids.has(id), `inicio ("Para começar") cita obra inexistente: ${id}`);
+assert.ok(D.periodos.some(p => p.id === D.inicio.periodo), `inicio: período inexistente ${D.inicio.periodo}`);
 
 for (const p of D.periodos) {
   const arq = new URL(`mapas/${p.mapa}.json`, dir);

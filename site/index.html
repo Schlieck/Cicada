@@ -393,11 +393,10 @@ function selectObra(id){
 }
 function clearObra(){
   nodeSel.classed('on nb dim',false);linkSel.classed('hot dim',false);
-  const start=['manifesto','locke','hobbes','buarque','beauvoir'];
   $('#gpanel').innerHTML=`<p class="eyebrow">Constelação</p><h3>${D.obras.length} obras, ${D.ligacoes.length} ligações</h3>
     <p class="desc">Cada nó é uma obra. O tamanho mostra o peso na tradição, a cor mostra a tradição e as setas mostram o que veio de onde. Clique num nó para ver de onde a obra vem, no que se desdobra e em que eventos do atlas aparece.</p>
     <p class="desc">Em "Linha do tempo", as obras se alinham da esquerda (Antiguidade) para a direita (hoje), uma faixa por tradição.</p>
-    <h4>Para começar</h4><ul class="rel">${start.map(id=>relItem(id,fmtY(byId[id].ano))).join('')}</ul>
+    <h4>Para começar</h4><ul class="rel">${D.inicio.obras.map(id=>relItem(id,fmtY(byId[id].ano))).join('')}</ul>
     <p class="note" style="margin-top:12px">O tamanho dos nós é uma nota editorial em 3 níveis, baseada em ementas de Yale, MIT, USP e Unicamp.</p>`;
 }
 
@@ -431,9 +430,10 @@ function openDrawer(id){
 function closeDrawer(){$('#drawer').hidden=true;const b=drawerId&&document.querySelector(`[data-node="${drawerId}"]`);if(b)b.focus()}
 
 // ---------- atlas ----------
-let map=null,mapReady=null,curPer='rev',curEv=null,isGlobe=false,ecoOn=false,tradF='';
+let map=null,mapReady=null,curPer=null,curEv=null,isGlobe=false,ecoOn=false,tradF='';
 const geoCache={},PER={};
 function buildAtlasUI(){
+  curPer=D.inicio.periodo;
   D.periodos.forEach(p=>{PER[p.id]=p;
     const b=document.createElement('button');b.className='per';b.dataset.per=p.id;b.setAttribute('aria-pressed','false');
     b.innerHTML=`${p.l}<small>${p.r}</small>`;b.onclick=()=>{curEv=null;setPeriod(p.id).catch(mapError)};$('#periods').appendChild(b);

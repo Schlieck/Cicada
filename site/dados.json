@@ -1,4 +1,5 @@
 {
+"inicio": {"obras":["manifesto","locke","hobbes","buarque","beauvoir"],"periodo":"rev"},
 "tradicoes": {"est":"Estado e contrato","lib":"Liberalismo","con":"Conservadorismo","nac":"Nacionalismo","fas":"Fascismo","soc":"Socialismos e anarquismo","eco":"Ecologismo","fem":"Feminismos","sul":"Sul global e dependência","bra":"Brasil","pop":"Populismo","dem":"Democracia"},
 "pesos": {"3":"Fundadora","2":"Importante","1":"Aprofundamento"},
 "tipos": {"rev":"Revolução ou ruptura","ind":"Independência","reg":"Mudança de regime","ins":"Marco institucional","eco":"Economia","gue":"Guerra ou conquista"},
