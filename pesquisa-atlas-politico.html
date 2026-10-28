@@ -1,0 +1,618 @@
+<title>Atlas do Pensamento Político</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,500..800&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* Layout: dossiê de pesquisa em coluna única, uma seção por aba do futuro site, fontes e decisões no fim */
+:root{
+  --paper:#F1F2EE; --surface:#FFFFFF; --ink:#1A2130; --muted:#5A6271; --line:#D3D6CE; --accent:#8A1C2C; --edge:#A3A9B3;
+  --g-est:#5F6F8C; --g-lib:#C2900B; --g-con:#2D64A8; --g-soc:#C4313B; --g-dem:#1F8B7A; --g-fem:#8B48BB; --g-sul:#9E6129; --g-bra:#2C8A43;
+  --f-display:"Bodoni Moda", Didot, "Times New Roman", serif;
+  --f-body:"Public Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-mono:"IBM Plex Mono", ui-monospace, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#11151D; --surface:#191E29; --ink:#E6E8E3; --muted:#9BA3B1; --line:#2B3241; --accent:#E36D7B; --edge:#566072;
+  --g-est:#8B9CBD; --g-lib:#E0B13A; --g-con:#5E95D8; --g-soc:#E45A61; --g-dem:#43B8A5; --g-fem:#B47EE0; --g-sul:#CB8C51; --g-bra:#52B968;
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#11151D; --surface:#191E29; --ink:#E6E8E3; --muted:#9BA3B1; --line:#2B3241; --accent:#E36D7B; --edge:#566072;
+  --g-est:#8B9CBD; --g-lib:#E0B13A; --g-con:#5E95D8; --g-soc:#E45A61; --g-dem:#43B8A5; --g-fem:#B47EE0; --g-sul:#CB8C51; --g-bra:#52B968;
+  color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.55;
+  padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));padding-block:0 64px}
+.wrap{max-width:1120px;margin:0 auto}
+h1,h2,h3{font-family:var(--f-display);font-weight:700;text-wrap:balance;margin:0;line-height:1.1}
+h1{font-size:clamp(2.2rem,5vw,3.6rem);letter-spacing:-.01em}
+h2{font-size:clamp(1.6rem,3.2vw,2.2rem)}
+h3{font-size:1.3rem}
+h4{font-size:.75rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:14px 0 6px;font-weight:600}
+p{margin:0}
+a{color:var(--accent)}
+.mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.eyebrow{font-family:var(--f-mono);font-size:.75rem;text-transform:uppercase;letter-spacing:.1em;color:var(--accent)}
+.lede{max-width:65ch;color:var(--muted);font-size:1.05rem}
+header.top{padding-block:48px 28px;border-bottom:1px solid var(--line);display:grid;gap:14px}
+nav.toc{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:.9rem}
+nav.toc a{text-decoration:none;color:var(--ink);border-bottom:1px solid var(--line)}
+nav.toc a:hover{border-color:var(--accent)}
+section{padding-block:44px 8px;display:grid;gap:18px}
+section > .head{display:grid;gap:8px}
+.tabs3{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.tabs3 div{border-top:3px solid var(--ink);padding-top:10px;display:grid;gap:4px}
+.tabs3 b{font-family:var(--f-display);font-size:1.15rem}
+.tabs3 span{color:var(--muted);font-size:.9rem}
+
+/* Constelação */
+.controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.chip{font:inherit;font-size:.82rem;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:4px 11px 4px 9px;cursor:pointer;display:inline-flex;gap:6px;align-items:center}
+.chip i{width:10px;height:10px;border-radius:50%;display:inline-block}
+.chip[aria-pressed="false"]{opacity:.45}
+.chip:focus-visible,.btn:focus-visible,.pill:focus-visible,.per:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.btn{font:inherit;font-size:.82rem;border:1px solid var(--ink);background:transparent;color:var(--ink);padding:4px 12px;cursor:pointer}
+.btn[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.sep{width:1px;height:22px;background:var(--line)}
+.graphbox{display:grid;grid-template-columns:minmax(0,1fr) 300px;border:1px solid var(--line);background:var(--surface)}
+@media (max-width:820px){.graphbox{grid-template-columns:minmax(0,1fr)}}
+.gwrap{position:relative;min-width:0}
+#graph{width:100%;height:auto;display:block;cursor:grab}
+.zoom{position:absolute;right:10px;bottom:10px;display:flex;gap:4px}
+.zoom .btn{background:var(--surface);width:30px;padding:2px 0}
+.lk{stroke:var(--edge);stroke-width:1.1;fill:none;transition:opacity .2s}
+.lk.c{stroke-dasharray:4 3}
+.lk.hot{stroke:var(--ink);stroke-width:1.8}
+.lk.dim{opacity:.12}
+.nd{cursor:pointer;transition:opacity .2s}
+.nd circle{stroke:var(--surface);stroke-width:1.5}
+.nd.on circle{stroke:var(--ink);stroke-width:3}
+.nd.dim{opacity:.18}
+.lbl{font-family:var(--f-body);font-size:10.5px;fill:var(--ink);paint-order:stroke;stroke:var(--surface);stroke-width:3px;stroke-linejoin:round;opacity:0;pointer-events:none}
+.nd.big .lbl,.nd.nb .lbl,.nd:hover .lbl,.nd:focus .lbl{opacity:1}
+.nd.dim .lbl{opacity:0}
+.axis text{font-family:var(--f-mono);font-size:11px;fill:var(--muted)}
+.axis line{stroke:var(--line)}
+.panel{border-left:1px solid var(--line);padding:18px;display:grid;align-content:start;gap:6px;min-width:0}
+@media (max-width:820px){.panel{border-left:0;border-top:1px solid var(--line)}}
+.panel .by{color:var(--muted)}
+.panel ul{list-style:none;padding:0;margin:0;display:grid;gap:4px}
+.panel li{display:flex;gap:8px;align-items:baseline;justify-content:space-between}
+.linkbtn{font:inherit;font-size:.88rem;background:none;border:0;padding:0;color:var(--ink);text-align:left;cursor:pointer;text-decoration:underline;text-decoration-color:var(--line);text-underline-offset:3px}
+.linkbtn:hover{text-decoration-color:var(--accent)}
+.tag{font-family:var(--f-mono);font-size:.7rem;color:var(--muted);white-space:nowrap}
+.legend{display:flex;flex-wrap:wrap;gap:6px 22px;font-size:.82rem;color:var(--muted)}
+.legend svg{vertical-align:middle;margin-right:6px}
+.note{font-size:.85rem;color:var(--muted);max-width:75ch}
+
+/* Trilha */
+ol.road{list-style:none;padding:0;margin:0;display:grid;gap:0;position:relative}
+ol.road > li{display:grid;grid-template-columns:150px minmax(0,1fr);gap:18px;padding-block:16px;border-top:1px solid var(--line)}
+@media (max-width:640px){ol.road > li{grid-template-columns:minmax(0,1fr);gap:8px}}
+.stage b{font-family:var(--f-display);font-size:1.1rem;display:block;line-height:1.2}
+.stage .mono{font-size:.75rem;color:var(--accent)}
+.stagebody{display:grid;gap:8px;min-width:0}
+.pills{display:flex;flex-wrap:wrap;gap:6px}
+.pill{font:inherit;font-size:.84rem;background:var(--surface);color:var(--ink);border:1px solid var(--line);padding:5px 10px;cursor:pointer;display:inline-flex;gap:7px;align-items:center;text-align:left}
+.pill i{width:9px;height:9px;border-radius:50%;flex:none}
+.pill.core{border:1.5px solid var(--ink);font-weight:600}
+.pill.ref{cursor:default;border-style:dashed;color:var(--muted)}
+.tip{font-size:.86rem;color:var(--muted)}
+.tip b{color:var(--ink);font-weight:600}
+
+/* Atlas */
+.cmp{overflow-x:auto;border:1px solid var(--line);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:.88rem}
+th,td{padding:10px 12px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line)}
+th{font-size:.72rem;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);font-weight:600}
+tr:last-child td{border-bottom:0}
+td:first-child{font-weight:600}
+.verdict{border:1.5px solid var(--ink);padding:16px 18px;display:grid;gap:10px;background:var(--surface)}
+.verdict ul{margin:0;padding-left:18px;display:grid;gap:4px}
+.periods{display:flex;flex-wrap:wrap;gap:0;border:1px solid var(--ink);width:fit-content;max-width:100%}
+.per{font:inherit;font-size:.8rem;background:var(--surface);color:var(--ink);border:0;border-right:1px solid var(--line);padding:8px 11px;cursor:pointer;text-align:left;line-height:1.2}
+.per:last-child{border-right:0}
+.per small{display:block;font-family:var(--f-mono);font-size:.68rem;color:var(--muted)}
+.per[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.per[aria-pressed="true"] small{color:var(--paper);opacity:.75}
+.perhead{display:grid;gap:4px}
+.eco{font-size:.88rem}
+.eco b{font-weight:600}
+.regions{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+.region{border:1px solid var(--line);background:var(--surface);padding:12px 14px;display:grid;gap:10px;align-content:start}
+.region h4{margin:0}
+.ev{display:grid;gap:3px}
+.ev .row{display:flex;gap:8px;align-items:baseline}
+.ev .yr{font-family:var(--f-mono);font-size:.75rem;color:var(--muted);min-width:68px}
+.ev .nm{font-weight:600;font-size:.9rem}
+.ev .ty{font-size:.72rem;display:inline-flex;gap:5px;align-items:center;color:var(--muted);padding-left:76px}
+.ev .ty i{width:8px;height:8px;border-radius:2px;display:inline-block}
+.ev .ob{padding-left:76px;display:flex;flex-wrap:wrap;gap:4px 10px}
+.ev .ob .linkbtn{font-size:.8rem;color:var(--muted)}
+.typeleg{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:.8rem;color:var(--muted)}
+.typeleg i{width:9px;height:9px;border-radius:2px;display:inline-block;margin-right:5px}
+
+/* Fontes */
+.src td a{word-break:break-word}
+.st{font-family:var(--f-mono);font-size:.72rem;white-space:nowrap}
+.st.ok{color:var(--g-dem)}
+.st.chk{color:var(--g-lib)}
+.decide{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px}
+.decide div{border-top:3px solid var(--accent);padding-top:10px;display:grid;gap:6px}
+.decide b{font-family:var(--f-display);font-size:1.05rem}
+.decide p{font-size:.9rem;color:var(--muted)}
+.decide em{font-style:normal;color:var(--ink);font-weight:600}
+@media (prefers-reduced-motion: reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+<header class="top">
+  <p class="eyebrow">Pesquisa antes do desenvolvimento · 28 out 2026</p>
+  <h1>Atlas do Pensamento Político</h1>
+  <p class="lede">Material reunido para as três abas do site: as obras e como se ligam, os eventos que o mapa vai mostrar e a ordem de estudo. Os dois gráficos abaixo já usam os dados reais propostos, então você pode testar a ideia antes de aprovar.</p>
+  <nav class="toc" aria-label="Seções">
+    <a href="#constelacao">Constelação de obras</a><a href="#trilha">Trilha de estudos</a><a href="#atlas">Atlas histórico</a><a href="#fontes">Fontes confirmadas</a><a href="#decisoes">Decisões pendentes</a>
+  </nav>
+  <div class="tabs3">
+    <div><b>Constelação</b><span>Obras como nós no estilo Connected Papers: o tamanho indica relevância, a cor indica a tradição e as setas mostram o que vira o quê.</span></div>
+    <div><b>Atlas</b><span>Mapa plano ou globo, como no Map of Metal, com controle de tempo por século e por conjuntura.</span></div>
+    <div><b>Trilha</b><span>Etapas clicáveis no estilo roadmap.sh, separando o núcleo do aprofundamento.</span></div>
+  </div>
+</header>
+
+<section id="constelacao">
+  <div class="head">
+    <p class="eyebrow">Aba 1 · Constelação</p>
+    <h2>78 obras, 8 tradições, 102 ligações</h2>
+    <p class="lede">Clique numa obra para ver de onde ela vem e no que se desdobra. Troque para "Linha do tempo" para ver a passagem temporal da esquerda para a direita.</p>
+  </div>
+  <div class="controls" id="filters" aria-label="Filtrar por tradição"></div>
+  <div class="controls">
+    <span class="tag">Layout</span>
+    <button class="btn" id="m-livre" aria-pressed="true">Afinidade</button>
+    <button class="btn" id="m-tempo" aria-pressed="false">Linha do tempo</button>
+    <span class="sep"></span>
+    <button class="chip" id="econ" aria-pressed="false"><i style="background:var(--ink)"></i>Só obras de economia</button>
+  </div>
+  <div class="graphbox">
+    <div class="gwrap">
+      <svg id="graph" role="img" aria-label="Grafo de obras de teoria política"></svg>
+      <div class="zoom"><button class="btn" id="zin" aria-label="Aproximar">+</button><button class="btn" id="zout" aria-label="Afastar">−</button><button class="btn" id="zreset" aria-label="Reiniciar zoom">⟲</button></div>
+    </div>
+    <aside class="panel" id="panel" aria-live="polite"></aside>
+  </div>
+  <div class="legend">
+    <span><svg width="44" height="10"><circle cx="5" cy="5" r="4" style="fill:var(--muted)"/><circle cx="18" cy="5" r="5" style="fill:var(--muted)"/></svg>Tamanho: fundadora, importante ou de aprofundamento</span>
+    <span><svg width="34" height="10"><line x1="0" y1="5" x2="34" y2="5" style="stroke:var(--edge);stroke-width:1.5"/></svg>continua ou desenvolve</span>
+    <span><svg width="34" height="10"><line x1="0" y1="5" x2="34" y2="5" style="stroke:var(--edge);stroke-width:1.5;stroke-dasharray:4 3"/></svg>critica ou responde</span>
+  </div>
+  <p class="note">O tamanho dos nós ainda é uma nota editorial minha, em 3 níveis, baseada em quantas das fontes abaixo citam a obra como fundadora. No site, a proposta é trocar essa nota por dados medidos: o número de cursos que adotam a obra (Open Syllabus) e o número de citações (OpenAlex).</p>
+</section>
+
+<section id="trilha">
+  <div class="head">
+    <p class="eyebrow">Aba 3 · Trilha</p>
+    <h2>Por onde começar e em que ordem</h2>
+    <p class="lede">As etapas 2 e 3 seguem a ordem dos dois volumes de "Os Clássicos da Política" (Weffort, USP). As demais seguem os cursos de Yale e do MIT e os programas brasileiros listados nas fontes. Clique numa obra para vê-la na constelação.</p>
+  </div>
+  <div class="legend"><span><span class="pill core" style="pointer-events:none">núcleo</span> leitura essencial</span><span><span class="pill" style="pointer-events:none">aprofundamento</span> opcional, para quem quer ir além</span><span><span class="pill ref" style="pointer-events:none">apoio</span> obra de consulta, fora do grafo</span></div>
+  <ol class="road" id="road"></ol>
+</section>
+
+<section id="atlas">
+  <div class="head">
+    <p class="eyebrow">Aba 2 · Atlas</p>
+    <h2>Como agrupar o mapa</h2>
+    <p class="lede">Cada forma de agrupar resolve um problema e cria outro. A proposta é dar a cada uma um papel visual diferente, em vez de escolher só uma.</p>
+  </div>
+  <div class="cmp"><table>
+    <thead><tr><th>Agrupamento</th><th>Funciona bem para</th><th>Problema</th><th>Papel proposto</th></tr></thead>
+    <tbody>
+      <tr><td>Por século</td><td>Navegação simples e intuitiva</td><td>O século XX concentra metade dos eventos, e os séculos cortam processos ao meio (1789–1815)</td><td>Controle de tempo até o séc. XVIII</td></tr>
+      <tr><td>Por conjuntura (eras)</td><td>Mostrar o contexto: Era das Revoluções, do Capital, dos Impérios, dos Extremos (Hobsbawm)</td><td>É uma periodização centrada na Europa e precisa de explicação</td><td>Controle de tempo de 1789 em diante</td></tr>
+      <tr><td>Por tipo de evento</td><td>Comparar revoluções, golpes e independências entre si</td><td>Sem o tempo, vira uma lista solta</td><td>Cor do marcador no mapa</td></tr>
+      <tr><td>Por modelo econômico</td><td>Ligar economia e política: mercantilismo, liberalismo, keynesianismo, neoliberalismo</td><td>Regiões diferentes convivem com modelos diferentes ao mesmo tempo</td><td>Camada opcional que pinta as regiões</td></tr>
+      <tr><td>Por eixo temático</td><td>Fazer a ponte com as obras da constelação</td><td>Um evento serve a vários eixos ao mesmo tempo</td><td>Filtro e links para as obras</td></tr>
+    </tbody>
+  </table></div>
+  <div class="verdict">
+    <h3>Recomendação</h3>
+    <ul>
+      <li><b>Tempo</b> controla a navegação, com escala variável: séculos até 1789 e conjunturas depois, porque a densidade de eventos aumenta.</li>
+      <li><b>Espaço</b> fica por conta do próprio mapa, com regiões e fronteiras da época.</li>
+      <li><b>Tipo de evento</b> vira a cor do marcador.</li>
+      <li><b>Modelo econômico</b> vira uma camada que se liga e desliga.</li>
+      <li><b>Tradição</b> funciona como filtro: cada evento aponta para as obras que o explicam ou que nasceram dele.</li>
+    </ul>
+  </div>
+  <div class="head" style="margin-top:12px">
+    <h3>Protótipo do controle de tempo</h3>
+    <p class="note">Clique num período. No site, o mapa se atualiza com as fronteiras e os marcadores dessa época. Aqui aparece o inventário de eventos já levantado, por região.</p>
+  </div>
+  <div class="periods" id="periods" role="group" aria-label="Período"></div>
+  <div class="typeleg" id="typeleg"></div>
+  <div class="perhead" id="perhead"></div>
+  <div class="regions" id="regions"></div>
+</section>
+
+<section id="fontes">
+  <div class="head">
+    <p class="eyebrow">Fontes</p>
+    <h2>O que foi confirmado</h2>
+    <p class="lede">"Confirmada" quer dizer que encontrei a fonte nesta pesquisa e conferi o conteúdo citado. "Conferir" quer dizer que é uma referência conhecida, mas não abri a página ou a edição.</p>
+  </div>
+  <div class="cmp src"><table>
+    <thead><tr><th>Fonte</th><th>O que oferece</th><th>Onde entra</th><th>Status</th></tr></thead>
+    <tbody id="srcbody"></tbody>
+  </table></div>
+</section>
+
+<section id="decisoes">
+  <div class="head">
+    <p class="eyebrow">Antes de começar</p>
+    <h2>Decisões pendentes</h2>
+  </div>
+  <div class="decide">
+    <div><b>Eixos que ficaram de fora</b><p>O livro-texto de Heywood também trata de nacionalismo, fascismo, populismo, ecologismo, multiculturalismo e fundamentalismo religioso. <em>Proposta: entram na versão 2.</em></p></div>
+    <div><b>Brasil como eixo próprio</b><p>Coloquei o Brasil como tradição separada, com 10 obras. A alternativa é espalhar essas obras pelos outros eixos. <em>Proposta: manter separado.</em></p></div>
+    <div><b>Tamanho dos nós</b><p>Hoje é uma nota editorial. Os dados do Open Syllabus podem exigir cadastro, e no OpenAlex as citações de clássicos ficam espalhadas entre edições. <em>Proposta: lançar com a nota e trocar pelos dados depois.</em></p></div>
+    <div><b>Fronteiras históricas</b><p>O historical-basemaps é gratuito, mas o próprio autor avisa que os dados não são precisos o bastante para uso acadêmico sem conferência. <em>Proposta: usar com um aviso visível no mapa.</em></p></div>
+  </div>
+  <p class="note">Pilha técnica sugerida: site estático, com um único arquivo de dados com identificadores comuns, em que cada evento e cada etapa da trilha aponta para obras. O D3 desenha a constelação, e o MapLibre GL JS 5 cuida do mapa, alternando entre plano e globo com a mesma biblioteca.</p>
+</section>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+<script>
+const GR={est:'Estado e contrato',lib:'Liberalismo',con:'Conservadorismo',soc:'Socialismos e anarquismo',dem:'Democracia',fem:'Feminismos',sul:'Sul global e dependência',bra:'Brasil'};
+// [id, título, autor, ano, tradição, peso 1-3, economia?, nota]
+const N=[
+['platao','A República','Platão',-375,'est',3,0,'Justiça e a cidade ideal governada por filósofos. Ponto de partida da teoria política ocidental.'],
+['aristoteles','Política','Aristóteles',-350,'est',3,0,'Classifica os regimes (monarquia, aristocracia, politeia e suas corrupções) e define o ser humano como animal político.'],
+['maquiavel','O Príncipe','Nicolau Maquiavel',1532,'est',3,0,'Separa política de moral: o poder estudado como ele é, não como deveria ser.'],
+['hobbes','Leviatã','Thomas Hobbes',1651,'est',3,0,'Contrato social para sair da guerra de todos contra todos. Funda a teoria do Estado soberano.'],
+['montesquieu','O Espírito das Leis','Montesquieu',1748,'est',2,0,'Separação dos poderes. Base das constituições liberais modernas.'],
+['hegel','Princípios da Filosofia do Direito','G. W. F. Hegel',1820,'est',2,0,'O Estado como realização da liberdade. A dialética que Marx vai inverter.'],
+['weber','A Política como Vocação','Max Weber',1919,'est',2,0,'Estado como monopólio da violência legítima e tipos de dominação: tradicional, carismática e legal.'],
+['schmitt','O Conceito do Político','Carl Schmitt',1932,'est',1,0,'Política como distinção entre amigo e inimigo. Crítico do liberalismo, ligado ao nazismo e muito lido hoje.'],
+['foucault','Vigiar e Punir','Michel Foucault',1975,'est',2,0,'O poder também atua fora do Estado: em prisões, escolas e hospitais.'],
+['locke','Segundo Tratado sobre o Governo','John Locke',1689,'lib',3,0,'Direitos naturais à vida, à liberdade e à propriedade, e governo por consentimento. Matriz do liberalismo.'],
+['smith','A Riqueza das Nações','Adam Smith',1776,'lib',3,1,'Divisão do trabalho e mercado como motor da prosperidade. Funda a economia política clássica.'],
+['kant','À Paz Perpétua','Immanuel Kant',1795,'lib',1,0,'Repúblicas, direito internacional e federação de Estados. Raiz do liberalismo internacional.'],
+['ricardo','Princípios de Economia Política e Tributação','David Ricardo',1817,'lib',1,1,'Teoria do valor-trabalho e vantagens comparativas. Marx parte daqui para criticá-la.'],
+['constant','Da Liberdade dos Antigos Comparada à dos Modernos','Benjamin Constant',1819,'lib',1,0,'Distingue a liberdade de participar, dos antigos, da liberdade privada, dos modernos.'],
+['mill','Sobre a Liberdade','John Stuart Mill',1859,'lib',3,0,'Princípio do dano: o Estado só pode limitar a liberdade para evitar dano a outros.'],
+['hobhouse','Liberalismo','L. T. Hobhouse',1911,'lib',1,0,'Novo liberalismo: o Estado deve garantir condições reais de liberdade. Ponte para o Estado social.'],
+['keynes','Teoria Geral do Emprego, do Juro e da Moeda','John Maynard Keynes',1936,'lib',3,1,'O Estado deve gastar para combater o desemprego. Base do pós-guerra e do Estado de bem-estar.'],
+['hayek','O Caminho da Servidão','Friedrich Hayek',1944,'lib',3,1,'O planejamento econômico leva à perda da liberdade. Texto fundador do neoliberalismo.'],
+['mises','Ação Humana','Ludwig von Mises',1949,'lib',1,1,'Escola Austríaca: o mercado como processo e a crítica ao cálculo socialista.'],
+['berlin','Dois Conceitos de Liberdade','Isaiah Berlin',1958,'lib',2,0,'Liberdade negativa (não interferência) e positiva (autogoverno). Vocabulário obrigatório.'],
+['friedman','Capitalismo e Liberdade','Milton Friedman',1962,'lib',2,1,'Monetarismo e mercado livre. Influenciou Thatcher, Reagan e o Chile de Pinochet.'],
+['rawls','Uma Teoria da Justiça','John Rawls',1971,'lib',3,0,'Véu da ignorância e princípio da diferença. Refundou a filosofia política liberal igualitária.'],
+['nozick','Anarquia, Estado e Utopia','Robert Nozick',1974,'lib',2,0,'Resposta libertária a Rawls: Estado mínimo e direitos de propriedade.'],
+['fukuyama','O Fim da História e o Último Homem','Francis Fukuyama',1992,'lib',2,0,'Depois de 1989, a democracia liberal seria o ponto final da evolução ideológica.'],
+['burke','Reflexões sobre a Revolução na França','Edmund Burke',1790,'con',3,0,'Contra a razão abstrata da revolução, defende a tradição e a reforma gradual. Funda o conservadorismo.'],
+['maistre','Considerações sobre a França','Joseph de Maistre',1796,'con',1,0,'Reação contrarrevolucionária: trono, altar e autoridade.'],
+['kirk','A Mentalidade Conservadora','Russell Kirk',1953,'con',1,0,'Reconstrói a linhagem de Burke e organiza o conservadorismo americano do pós-guerra.'],
+['oakeshott','Racionalismo na Política','Michael Oakeshott',1962,'con',1,0,'Crítica ao planejamento racionalista: política como prática e tradição.'],
+['huntington','O Choque de Civilizações','Samuel Huntington',1996,'con',1,0,'Os conflitos depois da Guerra Fria seriam culturais. Resposta direta a Fukuyama.'],
+['utopicos','Socialistas utópicos','Owen, Saint-Simon e Fourier',1820,'soc',1,1,'Primeiros projetos de sociedade cooperativa, depois criticados por Marx e Engels.'],
+['proudhon','O que é a Propriedade?','Pierre-Joseph Proudhon',1840,'soc',2,1,'"A propriedade é um roubo." Mutualismo e base do anarquismo.'],
+['manifesto','Manifesto do Partido Comunista','Karl Marx e Friedrich Engels',1848,'soc',3,0,'A luta de classes como motor da história. Melhor porta de entrada para Marx.'],
+['capital','O Capital, Livro I','Karl Marx',1867,'soc',3,1,'Mais-valia, acumulação e crise. Crítica da economia política de Smith e Ricardo.'],
+['bakunin','Estatismo e Anarquia','Mikhail Bakunin',1873,'soc',1,0,'Anarquismo contra a ditadura do proletariado. Origem do racha na Primeira Internacional.'],
+['engelsutopia','Do Socialismo Utópico ao Socialismo Científico','Friedrich Engels',1880,'soc',1,0,'Resumo didático do marxismo feito pelo próprio Engels.'],
+['kropotkin','A Conquista do Pão','Piotr Kropotkin',1892,'soc',1,1,'Anarcocomunismo e apoio mútuo.'],
+['bernstein','Os Pressupostos do Socialismo','Eduard Bernstein',1899,'soc',2,0,'Revisionismo: chegar ao socialismo por reformas e eleições. Raiz da social-democracia.'],
+['luxemburg','Reforma ou Revolução?','Rosa Luxemburgo',1900,'soc',2,0,'Resposta a Bernstein: reformas sem ruptura não superam o capitalismo.'],
+['imperialismo','Imperialismo, Fase Superior do Capitalismo','Vladimir Lenin',1917,'soc',2,1,'Capital financeiro e disputa colonial. Base das teorias da dependência.'],
+['lenin','O Estado e a Revolução','Vladimir Lenin',1917,'soc',3,0,'Destruir o Estado burguês e instaurar a ditadura do proletariado. Doutrina bolchevique.'],
+['gramsci','Cadernos do Cárcere','Antonio Gramsci',1935,'soc',3,0,'Hegemonia: o poder também se mantém pelo consenso cultural. Escritos entre 1929 e 1935, muito usados no Brasil.'],
+['polanyi','A Grande Transformação','Karl Polanyi',1944,'soc',2,1,'O mercado autorregulado é uma construção política que desagrega a sociedade e provoca reação.'],
+['frankfurt','Dialética do Esclarecimento','Theodor Adorno e Max Horkheimer',1947,'soc',1,0,'Escola de Frankfurt: razão instrumental e indústria cultural.'],
+['laclau','Hegemonia e Estratégia Socialista','Ernesto Laclau e Chantal Mouffe',1985,'soc',1,0,'Pós-marxismo e democracia radical. Base das teorias do populismo de esquerda.'],
+['piketty','O Capital no Século XXI','Thomas Piketty',2013,'soc',2,1,'Dados de longo prazo: quando o retorno do capital supera o crescimento, a desigualdade aumenta. Não é marxista; em 2019 passa a defender um "socialismo participativo".'],
+['rousseau','Do Contrato Social','Jean-Jacques Rousseau',1762,'dem',3,0,'Vontade geral e soberania popular. Inspira a Revolução Francesa.'],
+['federalist','O Federalista','Hamilton, Madison e Jay',1788,'dem',2,0,'Federalismo, freios e contrapesos e controle das facções. Manual da Constituição dos EUA.'],
+['tocqueville','A Democracia na América','Alexis de Tocqueville',1835,'dem',3,0,'Igualdade de condições, associações civis e o risco da tirania da maioria.'],
+['schumpeter','Capitalismo, Socialismo e Democracia','Joseph Schumpeter',1942,'dem',2,1,'Democracia como competição entre elites pelo voto. Visão minimalista.'],
+['arendt','Origens do Totalitarismo','Hannah Arendt',1951,'dem',3,0,'Antissemitismo, imperialismo e terror: como o nazismo e o stalinismo foram possíveis.'],
+['habermas','Mudança Estrutural da Esfera Pública','Jürgen Habermas',1962,'dem',2,0,'Esfera pública e debate racional. Base da democracia deliberativa.'],
+['dahl','Poliarquia','Robert Dahl',1971,'dem',2,0,'Democracia real medida por participação e contestação. Critério da ciência política comparada.'],
+['bobbio','Liberalismo e Democracia','Norberto Bobbio',1985,'dem',1,0,'Como duas tradições distintas se fundiram na democracia liberal.'],
+['lijphart','Modelos de Democracia','Arend Lijphart',1999,'dem',1,0,'Compara 36 democracias: modelo majoritário e modelo consensual.'],
+['levitsky','Como as Democracias Morrem','Steven Levitsky e Daniel Ziblatt',2018,'dem',2,0,'Hoje as democracias morrem por dentro, nas mãos de líderes eleitos que corroem as regras.'],
+['wollstonecraft','Reivindicação dos Direitos da Mulher','Mary Wollstonecraft',1792,'fem',3,0,'Educação e razão iguais para as mulheres. Responde a Rousseau.'],
+['taylor','A Sujeição das Mulheres','John Stuart Mill, com Harriet Taylor',1869,'fem',1,0,'Feminismo liberal: igualdade legal e política.'],
+['beauvoir','O Segundo Sexo','Simone de Beauvoir',1949,'fem',3,0,'"Ninguém nasce mulher: torna-se mulher." Funda o feminismo da segunda onda.'],
+['davis','Mulheres, Raça e Classe','Angela Davis',1981,'fem',2,0,'Articula gênero, raça e classe a partir da história dos EUA.'],
+['federici','Calibã e a Bruxa','Silvia Federici',2004,'fem',1,1,'Relê a acumulação primitiva de Marx pelo controle sobre o corpo das mulheres.'],
+['mariategui','Sete Ensaios de Interpretação da Realidade Peruana','José Carlos Mariátegui',1928,'sul',1,0,'Marxismo latino-americano a partir da questão indígena e agrária.'],
+['jamesblack','Os Jacobinos Negros','C. L. R. James',1938,'sul',2,0,'A Revolução Haitiana como parte central das revoluções atlânticas.'],
+['prebisch','O Desenvolvimento Econômico da América Latina','Raúl Prebisch (CEPAL)',1949,'sul',2,1,'Manifesto da CEPAL: centro e periferia e a deterioração dos termos de troca.'],
+['cesaire','Discurso sobre o Colonialismo','Aimé Césaire',1950,'sul',1,0,'Denuncia o colonialismo como barbárie da própria Europa.'],
+['fanon','Os Condenados da Terra','Frantz Fanon',1961,'sul',3,0,'Violência colonial, descolonização e o papel das elites nacionais.'],
+['cardoso','Dependência e Desenvolvimento na América Latina','Fernando Henrique Cardoso e Enzo Faletto',1969,'sul',2,1,'O desenvolvimento é possível, mas dependente e associado ao capital externo.'],
+['marini','Dialética da Dependência','Ruy Mauro Marini',1973,'sul',2,1,'Versão marxista da dependência: superexploração do trabalho na periferia.'],
+['said','Orientalismo','Edward Said',1978,'sul',2,0,'Como o Ocidente construiu a ideia de "Oriente". Funda os estudos pós-coloniais.'],
+['freyre','Casa-Grande & Senzala','Gilberto Freyre',1933,'bra',3,0,'Formação do Brasil a partir da família patriarcal e da miscigenação. Base e alvo do mito da democracia racial.'],
+['buarque','Raízes do Brasil','Sérgio Buarque de Holanda',1936,'bra',3,0,'Homem cordial, personalismo e a dificuldade de separar o público do privado.'],
+['caioprado','Formação do Brasil Contemporâneo','Caio Prado Jr.',1942,'bra',3,1,'O "sentido da colonização": uma economia voltada para fora. Leitura marxista do Brasil.'],
+['leal','Coronelismo, Enxada e Voto','Victor Nunes Leal',1949,'bra',2,0,'Como o poder local e o voto de cabresto sustentavam a Primeira República.'],
+['faoro','Os Donos do Poder','Raymundo Faoro',1958,'bra',3,0,'Patrimonialismo e estamento burocrático: o Estado apropriado por quem o controla.'],
+['furtado','Formação Econômica do Brasil','Celso Furtado',1959,'bra',3,1,'Ciclos econômicos e subdesenvolvimento. Base do desenvolvimentismo.'],
+['florestan','A Revolução Burguesa no Brasil','Florestan Fernandes',1975,'bra',2,0,'Modernização conservadora: capitalismo sem revolução democrática.'],
+['abranches','Presidencialismo de Coalizão (artigo)','Sérgio Abranches',1988,'bra',2,0,'Como presidentes governam com coalizões de muitos partidos. Chave para entender a Nova República.'],
+['gonzalez','A Categoria Político-Cultural de Amefricanidade','Lélia Gonzalez',1988,'bra',1,0,'Feminismo negro afro-latino-americano e crítica ao mito da democracia racial.'],
+['carvalho','Cidadania no Brasil: O Longo Caminho','José Murilo de Carvalho',2001,'bra',2,0,'No Brasil, os direitos sociais vieram antes dos civis e dos políticos. Ótima porta de entrada.']
+].map(a=>({id:a[0],t:a[1],a:a[2],ano:a[3],g:a[4],r:a[5],e:a[6],n:a[7]}));
+
+// [origem, destino, tipo] d = continua/desenvolve, c = critica/responde
+const E=[
+['platao','aristoteles','c'],['aristoteles','maquiavel','c'],['maquiavel','hobbes','d'],['hobbes','locke','c'],['locke','montesquieu','d'],
+['hobbes','rousseau','c'],['locke','rousseau','c'],['montesquieu','federalist','d'],['locke','federalist','d'],['locke','smith','d'],
+['smith','ricardo','d'],['ricardo','capital','c'],['smith','capital','c'],['hegel','manifesto','d'],['hegel','capital','d'],
+['rousseau','kant','d'],['rousseau','burke','c'],['burke','maistre','d'],['burke','oakeshott','d'],['burke','kirk','d'],
+['montesquieu','tocqueville','d'],['federalist','tocqueville','d'],['locke','constant','d'],['rousseau','constant','c'],['constant','mill','d'],['tocqueville','mill','d'],
+['mill','hobhouse','d'],['hobhouse','keynes','d'],['keynes','hayek','c'],['mises','hayek','d'],['hayek','friedman','d'],
+['mill','berlin','d'],['kant','rawls','d'],['locke','rawls','d'],['rousseau','rawls','d'],['rawls','nozick','c'],['locke','nozick','d'],['hayek','nozick','d'],
+['hegel','fukuyama','d'],['fukuyama','huntington','c'],['utopicos','manifesto','c'],['utopicos','engelsutopia','c'],['manifesto','capital','d'],['capital','engelsutopia','d'],
+['proudhon','manifesto','c'],['proudhon','bakunin','d'],['bakunin','kropotkin','d'],['capital','bakunin','c'],['capital','bernstein','c'],['bernstein','luxemburg','c'],
+['capital','luxemburg','d'],['capital','lenin','d'],['capital','imperialismo','d'],['lenin','gramsci','d'],['gramsci','laclau','d'],['capital','frankfurt','d'],
+['smith','polanyi','c'],['capital','schumpeter','d'],['schumpeter','dahl','c'],['tocqueville','dahl','d'],['rousseau','habermas','d'],['kant','habermas','d'],
+['dahl','lijphart','d'],['dahl','levitsky','d'],['hobbes','schmitt','d'],['weber','schmitt','d'],['hobbes','weber','d'],['lenin','arendt','c'],
+['hobbes','foucault','c'],['capital','piketty','d'],['mill','bobbio','d'],['tocqueville','bobbio','d'],['rousseau','wollstonecraft','c'],['wollstonecraft','taylor','d'],
+['taylor','beauvoir','d'],['beauvoir','davis','d'],['capital','davis','d'],['capital','federici','c'],['davis','gonzalez','d'],['freyre','gonzalez','c'],
+['capital','jamesblack','d'],['cesaire','fanon','d'],['jamesblack','fanon','d'],['fanon','said','d'],['keynes','prebisch','d'],['prebisch','furtado','d'],
+['prebisch','cardoso','d'],['imperialismo','marini','d'],['cardoso','marini','c'],['capital','mariategui','d'],['weber','buarque','d'],['weber','faoro','d'],
+['buarque','faoro','d'],['capital','caioprado','d'],['caioprado','furtado','d'],['caioprado','florestan','d'],['weber','florestan','d'],['florestan','cardoso','d'],
+['leal','carvalho','d'],['faoro','carvalho','d'],['federalist','abranches','d'],['freyre','buarque','c']
+];
+
+const byId=Object.fromEntries(N.map(d=>[d.id,d]));
+E.forEach(([s,t])=>console.assert(byId[s]&&byId[t],'aresta com id inexistente',s,t));
+const fmtY=y=>y<0?`${-y} a.C.`:String(y);
+const rad=d=>4+d.r*4;
+const short=t=>t.length>28?t.slice(0,26)+'…':t;
+const PESO={3:'Fundadora',2:'Importante',1:'Aprofundamento'};
+
+// ---- grafo ----
+const W=1000,H=620,keys=Object.keys(GR);
+const svg=d3.select('#graph').attr('viewBox',`0 0 ${W} ${H}`);
+svg.append('defs').selectAll('marker').data(['d','c']).join('marker').attr('id',k=>'arr-'+k)
+  .attr('viewBox','0 -4 8 8').attr('refX',8).attr('refY',0).attr('markerWidth',6).attr('markerHeight',6).attr('orient','auto')
+  .append('path').attr('d','M0,-4L8,0L0,4').style('fill','var(--edge)');
+const root=svg.append('g');
+const axis=root.append('g').attr('class','axis');
+const xs=d3.scaleLinear().domain([-400,1500,1700,1800,1900,1950,2000,2025]).range([0,.08,.2,.34,.56,.74,.92,1].map(v=>70+v*(W-140)));
+[-400,1500,1700,1800,1900,1950,2000].forEach(y=>{
+  axis.append('line').attr('x1',xs(y)).attr('x2',xs(y)).attr('y1',26).attr('y2',H-10);
+  axis.append('text').attr('x',xs(y)).attr('y',18).attr('text-anchor','middle').text(fmtY(y));
+});
+const bandY=g=>60+keys.indexOf(g)*((H-110)/(keys.length-1));
+const ctr=Object.fromEntries(keys.map((k,i)=>{const a=i/keys.length*2*Math.PI-Math.PI/2;return [k,[W/2+330*Math.cos(a),H/2+210*Math.sin(a)]]}));
+
+const links=E.map(([s,t,k])=>({source:s,target:t,k}));
+const linkSel=root.append('g').selectAll('line').data(links).join('line').attr('class',d=>'lk '+d.k).attr('marker-end',d=>`url(#arr-${d.k})`);
+const nodeSel=root.append('g').selectAll('g').data(N).join('g')
+  .attr('class',d=>'nd'+(d.r===3?' big':'')).attr('tabindex',0).attr('role','button')
+  .attr('aria-label',d=>`${d.t}, ${d.a}, ${fmtY(d.ano)}`)
+  .on('click',(e,d)=>select(d.id))
+  .on('keydown',(e,d)=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();select(d.id)}});
+nodeSel.append('circle').attr('r',rad).style('fill',d=>`var(--g-${d.g})`);
+nodeSel.append('text').attr('class','lbl').attr('text-anchor','middle').attr('dy',d=>-rad(d)-4).text(d=>short(d.t));
+nodeSel.append('title').text(d=>`${d.t} (${d.a}, ${fmtY(d.ano)})`);
+
+const sim=d3.forceSimulation(N)
+  .force('link',d3.forceLink(links).id(d=>d.id).distance(46).strength(.12))
+  .force('charge',d3.forceManyBody().strength(-85))
+  .force('collide',d3.forceCollide(d=>rad(d)+5))
+  .on('tick',()=>{
+    N.forEach(d=>{d.x=Math.max(16,Math.min(W-16,d.x));d.y=Math.max(30,Math.min(H-16,d.y))});
+    linkSel.each(function(l){
+      const dx=l.target.x-l.source.x,dy=l.target.y-l.source.y,len=Math.hypot(dx,dy)||1,off=rad(l.target)+2;
+      d3.select(this).attr('x1',l.source.x).attr('y1',l.source.y).attr('x2',l.target.x-dx/len*off).attr('y2',l.target.y-dy/len*off);
+    });
+    nodeSel.attr('transform',d=>`translate(${d.x},${d.y})`);
+  });
+
+function setMode(m){
+  d3.select('#m-livre').attr('aria-pressed',m==='livre');
+  d3.select('#m-tempo').attr('aria-pressed',m==='tempo');
+  axis.style('display',m==='tempo'?null:'none');
+  if(m==='tempo') sim.force('x',d3.forceX(d=>xs(d.ano)).strength(.9)).force('y',d3.forceY(d=>bandY(d.g)).strength(.3));
+  else sim.force('x',d3.forceX(d=>ctr[d.g][0]).strength(.08)).force('y',d3.forceY(d=>ctr[d.g][1]).strength(.08));
+  sim.alpha(.9).restart();
+}
+d3.select('#m-livre').on('click',()=>setMode('livre'));
+d3.select('#m-tempo').on('click',()=>setMode('tempo'));
+
+// zoom só por botões e arrasto com mouse, para não prender a rolagem da página
+const zoom=d3.zoom().scaleExtent([.6,4]).filter(e=>e.type==='mousedown'&&!e.button).on('zoom',e=>root.attr('transform',e.transform));
+svg.call(zoom);
+d3.select('#zin').on('click',()=>svg.transition().duration(250).call(zoom.scaleBy,1.4));
+d3.select('#zout').on('click',()=>svg.transition().duration(250).call(zoom.scaleBy,1/1.4));
+d3.select('#zreset').on('click',()=>svg.transition().duration(250).call(zoom.transform,d3.zoomIdentity));
+
+// filtros
+const active=new Set(keys);let econOnly=false;
+const fbox=document.getElementById('filters');
+keys.forEach(k=>{
+  const b=document.createElement('button');b.className='chip';b.setAttribute('aria-pressed','true');
+  b.innerHTML=`<i style="background:var(--g-${k})"></i>${GR[k]}`;
+  b.onclick=()=>{active.has(k)?active.delete(k):active.add(k);b.setAttribute('aria-pressed',active.has(k));applyFilter()};
+  fbox.appendChild(b);
+});
+document.getElementById('econ').onclick=e=>{econOnly=!econOnly;e.currentTarget.setAttribute('aria-pressed',econOnly);applyFilter()};
+const vis=d=>active.has(d.g)&&(!econOnly||d.e);
+function applyFilter(){
+  nodeSel.style('display',d=>vis(d)?null:'none');
+  linkSel.style('display',l=>vis(l.source)&&vis(l.target)?null:'none');
+}
+
+// seleção
+const panel=document.getElementById('panel');
+function item(o,tipo){return `<li><button class="linkbtn" data-id="${o.id}">${o.t}</button><span class="tag">${tipo}</span></li>`}
+function select(id){
+  const d=byId[id];
+  const inc=links.filter(l=>l.target.id===id),out=links.filter(l=>l.source.id===id);
+  const nb=new Set([id,...inc.map(l=>l.source.id),...out.map(l=>l.target.id)]);
+  nodeSel.classed('on',n=>n.id===id).classed('nb',n=>nb.has(n.id)).classed('dim',n=>!nb.has(n.id));
+  linkSel.classed('hot',l=>l.source.id===id||l.target.id===id).classed('dim',l=>l.source.id!==id&&l.target.id!==id);
+  panel.innerHTML=`
+    <p class="eyebrow" style="color:var(--g-${d.g})">${GR[d.g]} · ${fmtY(d.ano)}</p>
+    <h3>${d.t}</h3><p class="by">${d.a}</p>
+    <p style="margin-top:8px">${d.n}</p>
+    <p class="tag" style="margin-top:6px">${PESO[d.r]}${d.e?' · economia':''}</p>
+    ${inc.length?`<h4>Parte de</h4><ul>${inc.map(l=>item(l.source,l.k==='d'?'continua':'critica')).join('')}</ul>`:''}
+    ${out.length?`<h4>Desdobra-se em</h4><ul>${out.map(l=>item(l.target,l.k==='d'?'continua':'é criticada')).join('')}</ul>`:''}
+    <p style="margin-top:10px"><button class="linkbtn tag" id="clear">Limpar seleção</button></p>`;
+  panel.querySelectorAll('[data-id]').forEach(b=>b.onclick=()=>select(b.dataset.id));
+  document.getElementById('clear').onclick=clearSel;
+}
+function clearSel(){
+  nodeSel.classed('on nb dim',false);linkSel.classed('hot dim',false);
+  panel.innerHTML='<h4 style="margin-top:0">Nenhuma obra selecionada</h4><p class="note">Clique num nó para ver de onde a obra vem e no que se desdobra.</p>';
+}
+function goTo(id){select(id);document.getElementById('constelacao').scrollIntoView({behavior:'smooth'})}
+
+// ---- trilha ----
+const STAGES=[
+ {t:'Ferramentas',s:'Antes de tudo',d:'Obras de consulta para ter à mão durante toda a trilha: um mapa das ideologias, um dicionário de conceitos e uma antologia comentada dos clássicos.',ref:['Heywood, Ideologias Políticas','Bobbio, Matteucci e Pasquino, Dicionário de Política','Weffort (org.), Os Clássicos da Política, vols. 1 e 2'],ids:[]},
+ {t:'Os gregos',s:'Etapa 1',d:'Opcional, mas é onde nascem as perguntas e o vocabulário: justiça, regimes, cidadania.',ids:['platao','aristoteles']},
+ {t:'O Estado moderno',s:'Etapa 2',d:'A ordem segue o volume 1 de Weffort: como surge o Estado e o que o legitima.',ids:['maquiavel','hobbes','locke','montesquieu','rousseau','federalist']},
+ {t:'Revoluções e ideologias',s:'Etapa 3',d:'Século XIX, volume 2 de Weffort. Aqui nascem liberalismo, conservadorismo e socialismo como os conhecemos.',tip:'<b>Para Marx:</b> Manifesto, depois Engels (Do Socialismo Utópico ao Científico), depois Salário, Preço e Lucro, e só então O Capital, Livro I.',ids:['smith','burke','wollstonecraft','kant','maistre','ricardo','constant','hegel','utopicos','tocqueville','proudhon','manifesto','mill','capital','taylor','bakunin','engelsutopia','kropotkin']},
+ {t:'O século XX em crise',s:'Etapa 4',d:'Revoluções socialistas, fascismo, crise de 1929 e o debate entre planejamento e mercado.',ids:['bernstein','luxemburg','hobhouse','imperialismo','lenin','weber','schmitt','gramsci','keynes','jamesblack','schumpeter','polanyi','hayek','arendt']},
+ {t:'Pós-guerra',s:'Etapa 5',d:'Justiça, liberdade, democracia, poder e descolonização.',ids:['frankfurt','mises','beauvoir','cesaire','kirk','berlin','fanon','habermas','friedman','oakeshott','rawls','dahl','nozick','foucault']},
+ {t:'Brasil e América Latina',s:'Etapa 6',d:'Núcleo comum aos programas da USP, Unicamp, UFRRJ e UECE. Comece pela síntese de José Murilo de Carvalho.',ids:['carvalho','mariategui','freyre','buarque','caioprado','leal','prebisch','faoro','furtado','cardoso','marini','florestan','abranches','gonzalez']},
+ {t:'Debates atuais',s:'Etapa 7',d:'Fim da Guerra Fria, desigualdade, populismo, crise das democracias e as críticas feministas e pós-coloniais.',ids:['said','davis','laclau','bobbio','fukuyama','huntington','lijphart','federici','piketty','levitsky']}
+];
+document.getElementById('road').innerHTML=STAGES.map(st=>`
+  <li><div class="stage"><span class="mono">${st.s}</span><b>${st.t}</b></div>
+  <div class="stagebody"><p class="tip">${st.d}</p>
+  ${st.tip?`<p class="tip">${st.tip}</p>`:''}
+  <div class="pills">
+    ${(st.ref||[]).map(r=>`<span class="pill ref">${r}</span>`).join('')}
+    ${st.ids.map(id=>{const d=byId[id];return `<button class="pill${d.r===3?' core':''}" data-go="${id}"><i style="background:var(--g-${d.g})"></i>${d.t} <span class="tag">${fmtY(d.ano)}</span></button>`}).join('')}
+  </div></div></li>`).join('');
+document.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>goTo(b.dataset.go));
+console.assert(N.every(d=>STAGES.some(s=>s.ids.includes(d.id))),'obra fora da trilha',N.filter(d=>!STAGES.some(s=>s.ids.includes(d.id))).map(d=>d.id));
+
+// ---- atlas ----
+const TY={rev:['Revolução ou ruptura','var(--g-soc)'],ind:['Independência','var(--g-bra)'],reg:['Mudança de regime','var(--g-est)'],ins:['Marco institucional','var(--g-con)'],eco:['Economia','var(--g-lib)'],gue:['Guerra','var(--muted)']};
+document.getElementById('typeleg').innerHTML=Object.values(TY).map(([n,c])=>`<span><i style="background:${c}"></i>${n}</span>`).join('');
+// [ano, evento, região, tipo, [obras]]
+const PER=[
+ {id:'ant',l:'Antiguidade',r:'até 1500',eco:'Economias agrárias, escravismo antigo e, na Europa medieval, feudalismo.',ev:[
+  ['508 a.C.','Reformas de Clístenes em Atenas','Europa','ins',['platao','aristoteles']],
+  ['1215','Magna Carta','Europa','ins',['locke']]]},
+ {id:'s16',l:'Séc. XVI',r:'1500–1600',eco:'Mercantilismo e sistema colonial.',ev:[
+  ['1517','Reforma Protestante','Europa','rev',[]],
+  ['1519–1533','Conquista dos impérios asteca e inca','Américas','gue',[]],
+  ['1534','Capitanias hereditárias no Brasil','Américas','eco',['caioprado']],
+  ['1520–1566','Auge do Império Otomano','Oriente Médio','reg',[]]]},
+ {id:'s17',l:'Séc. XVII',r:'1600–1700',eco:'Mercantilismo e companhias de comércio.',ev:[
+  ['1600–1602','Companhias das Índias inglesa e holandesa','Ásia','eco',['smith']],
+  ['c. 1605–1695','Quilombo dos Palmares','Américas','rev',[]],
+  ['1642–1651','Revolução Inglesa','Europa','rev',['hobbes']],
+  ['1648','Paz de Vestfália','Europa','ins',['hobbes']],
+  ['1688','Revolução Gloriosa','Europa','rev',['locke']]]},
+ {id:'s18',l:'Séc. XVIII',r:'1700–1789',eco:'Crise do mercantilismo e nascimento da economia política clássica.',ev:[
+  ['c. 1760','Início da Revolução Industrial','Europa','eco',['smith']],
+  ['séc. XVIII','Auge do tráfico atlântico de escravizados','África','eco',['jamesblack']],
+  ['1776','Independência dos EUA','Américas','ind',['locke','federalist']],
+  ['1787','Constituição dos EUA','Américas','ins',['federalist','montesquieu']],
+  ['1789','Inconfidência Mineira','Américas','rev',[]]]},
+ {id:'rev',l:'Era das Revoluções',r:'1789–1848',eco:'Capitalismo industrial e liberal na Europa; economias de exportação nas Américas.',ev:[
+  ['1789','Revolução Francesa','Europa','rev',['rousseau','burke','wollstonecraft','maistre','kant']],
+  ['1791–1804','Revolução Haitiana','Américas','rev',['jamesblack']],
+  ['1810–1825','Independências hispano-americanas','Américas','ind',[]],
+  ['1822','Independência do Brasil','Américas','ind',[]],
+  ['1835','Revolta dos Malês','Américas','rev',[]],
+  ['1839–1842','Primeira Guerra do Ópio','Ásia','gue',[]],
+  ['1848','Primavera dos Povos','Europa','rev',['manifesto','tocqueville']]]},
+ {id:'cap',l:'Capital e impérios',r:'1848–1914',eco:'Capitalismo liberal, segunda revolução industrial e imperialismo.',ev:[
+  ['1861–1865','Guerra Civil dos EUA','Américas','gue',[]],
+  ['1861 / 1871','Unificações italiana e alemã','Europa','ins',[]],
+  ['1868','Restauração Meiji','Ásia','reg',[]],
+  ['1871','Comuna de Paris','Europa','rev',['capital','bakunin']],
+  ['1884–1885','Conferência de Berlim','África','ins',['imperialismo']],
+  ['1888','Abolição da escravidão no Brasil','Américas','ins',['florestan']],
+  ['1889','Proclamação da República','Américas','reg',['leal']],
+  ['1910','Revolução Mexicana','Américas','rev',[]],
+  ['1911','Revolução Xinhai, fim do império chinês','Ásia','rev',[]]]},
+ {id:'ext',l:'Guerras e crise',r:'1914–1945',eco:'Crise do liberalismo; planificação soviética; corporativismo fascista; Keynes.',ev:[
+  ['1914–1918','Primeira Guerra Mundial','Europa','gue',['imperialismo','luxemburg']],
+  ['1917','Revolução Russa','Europa','rev',['lenin','luxemburg']],
+  ['1922','Marcha sobre Roma','Europa','reg',['gramsci']],
+  ['1929','Quebra da bolsa e Grande Depressão','Global','eco',['keynes','polanyi']],
+  ['1930','Revolução de 1930','Américas','reg',['buarque','freyre']],
+  ['1933','Nazismo chega ao poder','Europa','reg',['schmitt','arendt']],
+  ['1939–1945','Segunda Guerra Mundial','Global','gue',['hayek','arendt']]]},
+ {id:'fria',l:'Guerra Fria',r:'1945–1991',eco:'Keynesianismo e Estado de bem-estar; socialismo de Estado; desenvolvimentismo; virada neoliberal a partir de 1979.',ev:[
+  ['1947','Independência da Índia','Ásia','ind',[]],
+  ['1948','Criação de Israel e guerra árabe-israelense','Oriente Médio','gue',[]],
+  ['1949','Revolução Chinesa','Ásia','rev',[]],
+  ['1959','Revolução Cubana','Américas','rev',[]],
+  ['1960','Ano da África: 17 independências','África','ind',['fanon','cesaire']],
+  ['1962','Independência da Argélia','África','ind',['fanon']],
+  ['1964','Golpe militar no Brasil','Américas','reg',['florestan','cardoso']],
+  ['1973','Golpe no Chile','Américas','reg',['friedman','marini']],
+  ['1974','Revolução dos Cravos','Europa','rev',[]],
+  ['1979','Revolução Iraniana','Oriente Médio','rev',['said']],
+  ['1988','Constituição brasileira','Américas','ins',['abranches','carvalho']],
+  ['1989','Queda do Muro de Berlim','Europa','reg',['fukuyama']]]},
+ {id:'hoje',l:'Depois de 1991',r:'1991–hoje',eco:'Globalização neoliberal, crise de 2008 e volta da política industrial.',ev:[
+  ['1991','Fim da União Soviética','Europa','reg',['fukuyama','huntington']],
+  ['1994','Fim do apartheid','África','ins',[]],
+  ['2008','Crise financeira global','Global','eco',['piketty']],
+  ['2010–2012','Primavera Árabe','Oriente Médio','rev',['levitsky']],
+  ['2013','Jornadas de Junho','Américas','rev',['abranches']]]}
+];
+PER.forEach(p=>p.ev.forEach(e=>e[4].forEach(id=>console.assert(byId[id],'evento cita obra inexistente',id))));
+const REG=['Américas','Europa','África','Oriente Médio','Ásia','Global'];
+const pbox=document.getElementById('periods');
+PER.forEach(p=>{
+  const b=document.createElement('button');b.className='per';b.id='per-'+p.id;b.setAttribute('aria-pressed','false');
+  b.innerHTML=`${p.l}<small>${p.r}</small>`;b.onclick=()=>showPer(p.id);pbox.appendChild(b);
+});
+function showPer(id){
+  const p=PER.find(x=>x.id===id);
+  pbox.querySelectorAll('.per').forEach(b=>b.setAttribute('aria-pressed',b.id==='per-'+id));
+  document.getElementById('perhead').innerHTML=`<h3>${p.l} <span class="mono" style="font-size:.9rem;color:var(--muted)">${p.r}</span></h3><p class="eco"><b>Modelo econômico em foco:</b> ${p.eco}</p>`;
+  document.getElementById('regions').innerHTML=REG.filter(r=>p.ev.some(e=>e[2]===r)).map(r=>`
+    <div class="region"><h4>${r}</h4>${p.ev.filter(e=>e[2]===r).map(e=>`
+      <div class="ev"><div class="row"><span class="yr">${e[0]}</span><span class="nm">${e[1]}</span></div>
+      <span class="ty"><i style="background:${TY[e[3]][1]}"></i>${TY[e[3]][0]}</span>
+      ${e[4].length?`<div class="ob">${e[4].map(id=>`<button class="linkbtn" data-go="${id}">${byId[id].t}</button>`).join('')}</div>`:''}
+      </div>`).join('')}</div>`).join('');
+  document.querySelectorAll('#regions [data-go]').forEach(b=>b.onclick=()=>goTo(b.dataset.go));
+}
+
+// ---- fontes ----
+const SRC=[
+ ['Open Syllabus: Co-Assignment Galaxy','https://blog.opensyllabus.org/galaxy-v2','Mapa de mais de 1 milhão de textos usados em cursos universitários. O tamanho do ponto mostra quantos cursos adotam o texto e a proximidade mostra quais são lidos juntos. É o mesmo modelo da Constelação.','Constelação: tamanho e vizinhança','ok'],
+ ['Open Yale Courses, PLSC 114 (Steven B. Smith)','https://oyc.yale.edu/node/696','Introdução à filosofia política em 24 aulas gravadas: Platão, Aristóteles, Maquiavel, Hobbes, Locke, Rousseau e Tocqueville.','Trilha, etapas 1 a 3','ok'],
+ ['MIT 17.03, Introduction to Political Thought','https://dspace.mit.edu/handle/1721.1/152346','Platão, Aristóteles, Maquiavel, Hobbes, Locke, Rousseau, Marx e Tocqueville. As leituras detalhadas não foram abertas.','Trilha','ok'],
+ ['Weffort (org.), Os Clássicos da Política, Ática','https://www.goodreads.com/book/show/8297817','Vol. 1: Maquiavel, Hobbes, Locke, Montesquieu, Rousseau e os Federalistas. Vol. 2: Burke, Kant, Hegel, Tocqueville, Mill e Marx. Adotado em programas da UFRJ.','Ordem das etapas 2 e 3','ok'],
+ ['Stanford Encyclopedia of Philosophy: Liberalism e Socialism','https://plato.stanford.edu/entries/liberalism/','Verbetes acadêmicos revisados que mostram as divisões internas de cada tradição, como o liberalismo clássico e o "novo" liberalismo. Também há o verbete Socialism, em plato.stanford.edu/entries/socialism.','Linhagens e ligações','ok'],
+ ['Heywood, Political Ideologies: An Introduction, 7ª ed. (2021)','https://perlego.com/book/3894934/political-ideologies-an-introduction-pdf','Livro-texto padrão de ideologias. Tem capítulos sobre liberalismo, conservadorismo, socialismo, anarquismo, nacionalismo, fascismo, populismo, feminismo, ecologismo, multiculturalismo e fundamentalismo.','Definição dos eixos','ok'],
+ ['Five Books: Jonathan Wolff sobre filosofia política','https://fivebooks.com/best-books/political-philosophy-jonathan-wolff/','Escolha de um especialista: Leviatã, os escritos de juventude de Marx, Rawls, Nozick e G. A. Cohen. A categoria Political Ideologies tem outras listas.','Peso das obras','ok'],
+ ['Programas brasileiros: Unicamp (HZ555), USP, UFRRJ (2026.1), UECE','https://www.ifch.unicamp.br/pf-ifch/ementa/146885/HZ555B.pdf','Núcleo comum: Freyre, Sérgio Buarque, Caio Prado, Faoro, Florestan e Furtado. A UFRRJ organiza o curso em 1870–1930, desenvolvimento e populismo, questão racial e Brasil contemporâneo.','Etapa 6','ok'],
+ ['historical-basemaps (GitHub)','https://github.com/aourednik/historical-basemaps','Fronteiras do mundo por ano em GeoJSON, com um índice de anos. O autor avisa que ainda é um trabalho em andamento.','Atlas: fronteiras','ok'],
+ ['Wikidata: revolução (Q10931)','https://www.wikidata.org/wiki/Q10931','Base aberta de eventos que pode fornecer datas e coordenadas. A consulta ainda precisa ser montada e testada.','Atlas: eventos','ok'],
+ ['HSE Revolutions Dataset, codebook v1.1 (2024)','https://social.hse.ru/data/2024/10/22/1942459012/CODEBOOK_V1.1.pdf','Revoluções do século XXI com data e local.','Atlas: 1991 a hoje','ok'],
+ ['OpenAlex API','https://help.openalex.org/data/works/','Contagem de citações gratuita e sem chave. Nos clássicos, as citações ficam espalhadas entre edições e traduções.','Tamanho dos nós','ok'],
+ ['MapLibre GL JS 5: exemplo de globo','https://maplibre.org/maplibre-gl-js/docs/examples/display-a-globe-with-a-vector-map/','Mapa plano e globo 3D na mesma biblioteca, com setProjection({type: "globe"}).','Atlas: plano e globo','ok'],
+ ['Atlas Histórico Brasil 500 anos (FGV CPDOC)','https://www.jb.com.br/cultura/noticias/2017/01/08/amp/atlas-historico-brasil-500-anos-tem-nova-versao-18-anos-apos-primeira-edicao.html','Atlas digital gratuito, do século XVI ao governo Lula, com verbetes do Dicionário Histórico-Biográfico Brasileiro. Confirmei por uma reportagem; o endereço do site não foi conferido.','Atlas: Brasil','chk'],
+ ['Hobsbawm, Era das Revoluções, do Capital, dos Impérios e dos Extremos','','Periodização 1789–1848, 1848–1875, 1875–1914 e 1914–1991, usada no controle de tempo.','Atlas: conjunturas','chk'],
+ ['Bobbio, Matteucci e Pasquino, Dicionário de Política (Ed. UnB)','','Obra de consulta de conceitos políticos.','Trilha: ferramentas','chk'],
+ ['marxists.org, Online Library of Liberty, Domínio Público','','Acervos gratuitos de textos clássicos que poderiam servir de link de leitura em cada obra.','Links de leitura','chk']
+];
+document.getElementById('srcbody').innerHTML=SRC.map(([n,u,o,w,s])=>`<tr><td>${u?`<a href="${u}" target="_blank" rel="noopener">${n}</a>`:n}</td><td>${o}</td><td>${w}</td><td><span class="st ${s}">${s==='ok'?'Confirmada':'Conferir'}</span></td></tr>`).join('');
+
+// estado inicial
+setMode('livre');
+select('capital');
+showPer('rev');
+</script>
