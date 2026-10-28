@@ -436,7 +436,7 @@ const geoCache={},PER={};
 function buildAtlasUI(){
   D.periodos.forEach(p=>{PER[p.id]=p;
     const b=document.createElement('button');b.className='per';b.dataset.per=p.id;b.setAttribute('aria-pressed','false');
-    b.innerHTML=`${p.l}<small>${p.r}</small>`;b.onclick=()=>{curEv=null;setPeriod(p.id)};$('#periods').appendChild(b);
+    b.innerHTML=`${p.l}<small>${p.r}</small>`;b.onclick=()=>{curEv=null;setPeriod(p.id).catch(mapError)};$('#periods').appendChild(b);
   });
   $('#trad').innerHTML=`<option value="">Todas as tradições</option>`+Object.entries(D.tradicoes).map(([k,v])=>`<option value="${k}">${v}</option>`).join('');
   $('#trad').onchange=e=>{tradF=e.target.value;renderPeriodPanel();setEventsData()};
