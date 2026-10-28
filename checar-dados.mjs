@@ -22,6 +22,9 @@ for (const e of D.etapas) assert.ok(!e.tip || e.tip.includes(':'), `etapa "${e.t
 
 for (const id of D.inicio.obras) assert.ok(ids.has(id), `inicio ("Para começar") cita obra inexistente: ${id}`);
 assert.ok(D.periodos.some(p => p.id === D.inicio.periodo), `inicio: período inexistente ${D.inicio.periodo}`);
+// a página monta o HTML com template strings sem escapar: "<" viraria marcação e " num título quebra <option value="…">
+assert.ok(!JSON.stringify(D).includes('<'), 'dados.json não pode ter "<"');
+for (const o of D.obras) assert.ok(!o.t.includes('"'), `título com aspas duplas em ${o.id}: use “ ”`);
 
 for (const p of D.periodos) {
   const arq = new URL(`mapas/${p.mapa}.json`, dir);
