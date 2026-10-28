@@ -22,8 +22,10 @@ for (const e of D.etapas) assert.ok(!e.tip || e.tip.includes(':'), `etapa "${e.t
 
 // ids que index.html usa direto; se faltarem, a página inteira quebra
 const html = readFileSync(new URL('index.html', dir), 'utf8');
-for (const id of html.match(/const start=\[([^\]]*)\]/)[1].match(/[\w-]+/g)) assert.ok(ids.has(id), `index.html ("Para começar") cita obra inexistente: ${id}`);
-assert.ok(D.periodos.some(p => p.id === html.match(/curPer='(\w+)'/)[1]), 'index.html: período inicial (curPer) inexistente');
+const start = html.match(/const start=\[([^\]]*)\]/)?.[1], perInicial = html.match(/curPer='([^']+)'/)?.[1];
+assert.ok(start && perInicial, 'index.html mudou: atualize a busca de "const start" e "curPer" em checar-dados.mjs');
+for (const id of start.match(/[^'",\s]+/g)) assert.ok(ids.has(id), `index.html ("Para começar") cita obra inexistente: ${id}`);
+assert.ok(D.periodos.some(p => p.id === perInicial), `index.html: período inicial "${perInicial}" inexistente`);
 
 for (const p of D.periodos) {
   const arq = new URL(`mapas/${p.mapa}.json`, dir);
