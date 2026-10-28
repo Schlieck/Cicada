@@ -18,6 +18,12 @@ const naTrilha = D.etapas.flatMap(e => e.ids);
 for (const id of naTrilha) assert.ok(ids.has(id), `etapa cita obra inexistente: ${id}`);
 assert.equal(new Set(naTrilha).size, naTrilha.length, 'obra repetida na trilha');
 assert.deepEqual(D.obras.filter(o => !naTrilha.includes(o.id)).map(o => o.id), [], 'obra fora da trilha');
+for (const e of D.etapas) assert.ok(!e.tip || e.tip.includes(':'), `etapa "${e.t}": tip sem ":"`);
+
+// ids que index.html usa direto; se faltarem, a página inteira quebra
+const html = readFileSync(new URL('index.html', dir), 'utf8');
+for (const id of html.match(/const start=\[([^\]]*)\]/)[1].match(/[\w-]+/g)) assert.ok(ids.has(id), `index.html ("Para começar") cita obra inexistente: ${id}`);
+assert.ok(D.periodos.some(p => p.id === html.match(/curPer='(\w+)'/)[1]), 'index.html: período inicial (curPer) inexistente');
 
 for (const p of D.periodos) {
   const arq = new URL(`mapas/${p.mapa}.json`, dir);

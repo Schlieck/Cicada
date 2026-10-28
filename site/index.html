@@ -263,6 +263,7 @@ const short=t=>t.length>28?t.slice(0,26)+'…':t;
 let D,byId,EV={},evByObra={},stageOf={};
 
 fetch('dados.json').then(r=>{if(!r.ok)throw new Error(r.status);return r.json()}).then(init).catch(err=>{
+  console.error(err);
   document.querySelector('main').innerHTML=`<p class="note" style="padding:24px 0">Não foi possível carregar os dados (${err.message}). Se você abriu o arquivo direto do disco, rode um servidor local na pasta do site.</p>`;
 });
 
